@@ -79,11 +79,10 @@ async def list_players_html(request: Request):
 
 @app.get("/enemies/html", response_class=HTMLResponse)
 async def list_enemies_html(request: Request):
-    enemies = read_all_enemies()
+    enemies = await read_all_enemies()  # ✅ CORRECTO
     imagenes = [
         "/static/uploads/enemie_1.png",
         "/static/uploads/enemie_2.png",
-
     ]
     return templates.TemplateResponse("listar.html", {
         "request": request,
@@ -91,6 +90,7 @@ async def list_enemies_html(request: Request):
         "imagenes": imagenes,
         "titulo": "Enemigos"
     })
+
 
 @app.post("/players/form")
 async def submit_player_form(
