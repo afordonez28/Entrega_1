@@ -1,2 +1,3 @@
 id,name,speed,jump,hit_speed,health,type,spawn,probability_spawn
 2,Petra,1.5,1.2,2,100,goblin,3.0,0.5
+2,El_profe,1.5,1.2,2,100,goblin,3.0,0.5

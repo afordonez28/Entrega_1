@@ -123,7 +123,7 @@ async def get_players():
 
 @app.get("/players/{player_id}", response_model=PlayerWithID)
 async def get_player(player_id: int):
-    player = read_one_player(player_id)
+    player = await read_one_player(player_id)
     if not player:
         raise HTTPException(status_code=404, detail="Player not found")
     return player
@@ -141,7 +141,7 @@ async def update_player_endpoint(player_id: int, player_update: Player):
 
 @app.delete("/players/{player_id}", response_model=PlayerWithID)
 async def delete_player_endpoint(player_id: int):
-    removed_player = delete_player(player_id)
+    removed_player = await delete_player(player_id)
     if not removed_player:
         raise HTTPException(status_code=404, detail="Player not found")
     return removed_player
@@ -194,7 +194,7 @@ async def update_enemy_endpoint(enemy_id: int, enemy_update: Enemy):
 
 @app.delete("/enemies/{enemy_id}", response_model=EnemyWithID)
 async def delete_enemy_endpoint(enemy_id: int):
-    removed_enemy = delete_enemy(enemy_id)
+    removed_enemy = await delete_enemy(enemy_id)
     if not removed_enemy:
         raise HTTPException(status_code=404, detail="Enemy not found")
     return removed_enemy
