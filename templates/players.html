@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}Jugadores - Videojuego 2D{% endblock %}
+
+{% block content %}
+<section class="players-section">
+    <h1>Gestión de Jugadores</h1>
+
+    <div class="actions-bar">
+        <button type="button" class="btn-primary" id="togglePlayerFormBtn">➕ Nuevo Jugador</button>
+        <button type="button" class="btn-danger" id="deleteAllPlayers">🗑️ Eliminar Todos</button>
+    </div>
+
+    <form id="playerForm" class="game-form" style="display: none;">
+        <div class="form-group">
+            <label for="playerName">Nombre:</label>
+            <input type="text" id="playerName" name="name" required minlength="1">
+        </div>
+        <div class="form-group">
+            <label for="playerHealth">Salud:</label>
+            <input type="number" id="playerHealth" name="health" required min="0" value="100">
+        </div>
+        <div class="form-group">
+            <label for="playerRegenerateHealth">Regeneración de Salud:</label>
+            <input type="number" id="playerRegenerateHealth" name="regenerate_health" required min="0" value="1">
+        </div>
+        <div class="form-group">
+            <label for="playerSpeed">Velocidad:</label>
+            <input type="number" id="playerSpeed" name="speed" required min="0.1" step="0.1" value="1.0">
+        </div>
+        <div class="form-group">
+            <label for="playerJump">Salto:</label>
+            <input type="number" id="playerJump" name="jump" required min="0.1" step="0.1" value="1.0">
+        </div>
+        <div class="form-group">
+            <label for="playerArmor">Armadura:</label>
+            <input type="number" id="playerArmor" name="armor" required min="0" value="0">
+        </div>
+        <div class="form-group">
+            <label for="playerHitSpeed">Velocidad de Golpe:</label>
+            <input type="number" id="playerHitSpeed" name="hit_speed" required min="0" value="1">
+        </div>
+        <div class="form-group">
+            <label for="playerImage">Imagen:</label>
+            <input type="file" id="playerImage" name="image" accept="image/*" required>
+            <div id="imagePreview" class="image-preview"></div>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn-success">Crear Jugador</button>
+            <button type="button" class="btn-secondary" id="cancelPlayerForm">Cancelar</button>
+        </div>
+    </form>
+
+    <section id="historySection">
+        <div class="history-title">Histórico de Jugadores Eliminados</div>
+        <ul id="deletedPlayersList"></ul>
+    </section>
+
+    <div id="playersList" class="cards-grid">
+        <!-- Los jugadores se cargarán aquí dinámicamente -->
+    </div>
+
+    <div id="playersList" class="cards-grid">
+        <!-- Los jugadores se cargarán aquí dinámicamente -->
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="/static/js/players.js" type="module"></script>
+{% endblock %}

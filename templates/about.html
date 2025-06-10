@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Desarrollador - Videojuego 2D{% endblock %}
+
+{% block content %}
+<section class="about-section">
+    <div class="developer-profile">
+        <img src="/static/images/developer/yo.png" alt="Andrés Felipe" class="profile-image" style="width:200px;border-radius:50%">
+        <h1>Andrés Felipe Ordóñez Carrasco</h1>
+        <p class="developer-role">Desarrollador de Videojuegos y Software</p>
+    </div>
+    <div class="developer-info">
+        <h2>Sobre el Proyecto</h2>
+        <p>
+            Soy Andrés Felipe Ordóñez Carrasco, apasionado por el desarrollo de videojuegos y la creatividad digital.
+            Me interesa crear experiencias interactivas que estimulen la imaginación y el aprendizaje.
+        </p>
+        <h3>Objetivo general</h3>
+        <p>
+            Crear la interfaz gráfica de un videojuego 2D utilizando gráficos PixelArt en Godot Engine, que fomente la creatividad y la capacidad de diseñar mientras el jugador observa y enfrenta oleadas de enemigos.
+        </p>
+        <h3>Galería del desarrollador</h3>
+        <div class="project-gallery" style="display:flex;gap:2rem;align-items:center;">
+            <img src="/static/images/developer/yo.png" alt="Andrés Felipe" style="width:180px;border-radius:10px">
+            <img src="/static/images/developer/mandarina.png" alt="Proyecto Mandarina" style="width:180px;border-radius:10px">
+        </div>
+    </div>
+    <div style="margin-top:2rem;">
+        <h3>Descripción personal</h3>
+        <p>
+            Mi misión es unir el arte del pixel y la lógica de la programación para crear juegos que desafíen y diviertan.
+            Este proyecto es una muestra de cómo la tecnología puede potenciar la creatividad y el trabajo en equipo.
+        </p>
+    </div>
+</section>
+{% endblock %}

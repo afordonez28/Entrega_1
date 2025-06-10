@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% set active_page = 'home' %}
+
+{% block content %}
+<div class="home-container">
+    <div class="welcome-section">
+        <h1>🎮 Bienvenido al Gestor de Juego</h1>
+        <div class="menu-cards">
+            <a href="/players" class="menu-card">
+                <div class="card-icon">👤</div>
+                <h2>Jugadores</h2>
+                <p>Gestiona tus personajes jugables</p>
+            </a>
+            <a href="/enemies" class="menu-card">
+                <div class="card-icon">👾</div>
+                <h2>Enemigos</h2>
+                <p>Administra los enemigos del juego</p>
+            </a>
+            <a href="/stats" class="menu-card">
+                <div class="card-icon">📊</div>
+                <h2>Estadísticas</h2>
+                <p>Ver estadísticas del juego</p>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

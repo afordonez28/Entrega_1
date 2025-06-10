@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Estadísticas - Videojuego 2D{% endblock %}
+
+{% block content %}
+<section class="stats-section">
+    <h1>Estadísticas del Juego</h1>
+    <div class="stats-container">
+        <div class="stat-card">
+            <h2>Jugadores</h2>
+            <p class="stat-number" id="totalPlayers">{{ total_players }}</p>
+        </div>
+        <div class="stat-card">
+            <h2>Enemigos</h2>
+            <p class="stat-number" id="totalEnemies">{{ total_enemies }}</p>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="/static/js/stats.js" type="module"></script>
+{% endblock %}

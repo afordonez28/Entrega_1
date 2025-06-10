@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}Enemigos - Videojuego 2D{% endblock %}
+
+{% block content %}
+<section class="enemies-section">
+    <h1>Gestión de Enemigos</h1>
+
+    <div class="actions-bar">
+        <button type="button" class="btn-primary" id="toggleEnemyFormBtn">➕ Nuevo Enemigo</button>
+        <button type="button" class="btn-danger" id="deleteAllEnemies">🗑️ Eliminar Todos</button>
+    </div>
+
+    <form id="enemyForm" class="game-form" style="display: none;">
+        <div class="form-group">
+            <label for="enemyName">Nombre:</label>
+            <input type="text" id="enemyName" name="name" required minlength="1">
+        </div>
+        <div class="form-group">
+            <label for="enemySpeed">Velocidad:</label>
+            <input type="number" id="enemySpeed" name="speed" required min="0.1" step="0.1" value="1.5">
+        </div>
+        <div class="form-group">
+            <label for="enemyJump">Salto:</label>
+            <input type="number" id="enemyJump" name="jump" required min="0.1" step="0.1" value="1.2">
+        </div>
+        <div class="form-group">
+            <label for="enemyHitSpeed">Velocidad de Golpe:</label>
+            <input type="number" id="enemyHitSpeed" name="hit_speed" required min="0" value="2">
+        </div>
+        <div class="form-group">
+            <label for="enemyHealth">Salud:</label>
+            <input type="number" id="enemyHealth" name="health" required min="0" value="100">
+        </div>
+        <div class="form-group">
+            <label for="enemyType">Tipo:</label>
+            <input type="text" id="enemyType" name="type" required minlength="1">
+        </div>
+        <div class="form-group">
+            <label for="enemySpawn">Tiempo de Aparición:</label>
+            <input type="number" id="enemySpawn" name="spawn" required min="0.1" step="0.1" value="3.0">
+        </div>
+        <div class="form-group">
+            <label for="enemyProbabilitySpawn">Probabilidad de Aparición:</label>
+            <input type="number" id="enemyProbabilitySpawn" name="probability_spawn" required min="0" max="1" step="0.1" value="0.5">
+        </div>
+        <div class="form-group">
+            <label for="enemyImage">Imagen:</label>
+            <input type="file" id="enemyImage" name="image" accept="image/*" required>
+            <div id="imagePreview" class="image-preview"></div>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn-success">Crear Enemigo</button>
+            <button type="button" class="btn-secondary" id="cancelEnemyForm">Cancelar</button>
+        </div>
+    </form>
+
+    <section id="historySection">
+        <div class="history-title">Histórico de Enemigos Eliminados</div>
+        <ul id="deletedEnemiesList"></ul>
+    </section>
+
+    <div id="enemiesList" class="cards-grid">
+        <!-- Los enemigos se cargarán aquí dinámicamente -->
+    </div>
+    <div id="enemiesList" class="cards-grid">
+        <!-- Los enemigos se cargarán aquí dinámicamente -->
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="/static/js/enemies.js" type="module"></script>
+{% endblock %}

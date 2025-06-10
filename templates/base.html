@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Videojuego 2D{% endblock %}</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <nav class="main-nav">
+        <ul>
+            <li><a href="/">Inicio</a></li>
+            <li><a href="/players">Jugadores</a></li>
+            <li><a href="/enemies">Enemigos</a></li>
+            <li><a href="/stats">Estadísticas</a></li>
+            <li><a href="/about">Desarrollador</a></li>
+        </ul>
+    </nav>
+
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2025 Videojuego 2D. Desarrollado por Andrés Felipe Ordóñez Carrasco</p>
+    </footer>
+
+    <script src="/static/js/utils.js" type="module"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
