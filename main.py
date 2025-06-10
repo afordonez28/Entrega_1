@@ -313,6 +313,33 @@ async def acerca(request: Request):
 async def error_demo(request: Request):
     return templates.TemplateResponse("error.html", {"request": request, "codigo": 404, "mensaje": "Página no encontrada"})
 
+@app.get("/enemies/form", response_class=HTMLResponse)
+async def form_enemy(request: Request):
+    return templates.TemplateResponse("form_enemigo.html", {"request": request})
+
+@app.post("/enemies/form")
+async def submit_enemy_form(
+    name: str = Form(...),
+    type: str = Form(...),
+    health: int = Form(...),
+    speed: float = Form(...),
+    jump: float = Form(...),
+    hit_speed: int = Form(...),
+    spawn: float = Form(...),
+    probability_spawn: float = Form(...)
+):
+    enemy = Enemy(
+        name=name,
+        type=type,
+        health=health,
+        speed=speed,
+        jump=jump,
+        hit_speed=hit_speed,
+        spawn=spawn,
+        probability_spawn=probability_spawn
+    )
+    new_enemy = await create_enemy(enemy)
+    return RedirectResponse(url="/enemies/html", status_code=302)
 
 
 # ------------------ Run -------------------

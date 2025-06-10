@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrar Enemigo</title>
+    <link rel="stylesheet" href="/static/css/game-theme.css">
+    <script type="module" src="https://unpkg.com/wired-elements?module"></script>
+    <style>
+        body {
+            background-color: #1f1f1f;
+            font-family: 'Press Start 2P', cursive;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+        h1 {
+            color: #ff5050;
+            margin-bottom: 2rem;
+        }
+        form {
+            background-color: #2d2d2d;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 0 10px #ff5050;
+            display: flex;
+            flex-direction: column;
+            width: 400px;
+            gap: 1.2rem;
+        }
+        label {
+            font-size: 14px;
+            color: #ccc;
+        }
+        input[type="text"],
+        input[type="number"],
+        input[type="file"] {
+            background-color: #444;
+            color: #fff;
+            border: 1px solid #888;
+            padding: 0.5rem;
+            width: 100%;
+            border-radius: 5px;
+        }
+        .actions {
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+    <h1>Nuevo Enemigo</h1>
+
+    <form action="/enemies/form" method="post" enctype="multipart/form-data">
+        <label for="name">Nombre:</label>
+        <input type="text" name="name" required>
+
+        <label for="type">Tipo:</label>
+        <input type="text" name="type" required>
+
+        <label for="health">Salud:</label>
+        <input type="number" name="health" required>
+
+        <label for="speed">Velocidad:</label>
+        <input type="number" name="speed" required>
+
+        <label for="jump">Salto:</label>
+        <input type="number" name="jump" required>
+
+        <label for="hit_speed">Velocidad de ataque:</label>
+        <input type="number" name="hit_speed" required>
+
+        <label for="spawn">Tiempo de aparición:</label>
+        <input type="number" name="spawn" step="0.01" required>
+
+        <label for="probability_spawn">Probabilidad de aparición (%):</label>
+        <input type="number" name="probability_spawn" step="0.01" required>
+
+        <label for="image">Imagen (PNG, JPG):</label>
+        <input type="file" name="image" accept="image/*" required>
+
+        <div class="actions">
+            <button type="submit">Crear</button>
+            <a href="/enemies/html"><button type="button">Volver</button></a>
+        </div>
+    </form>
+</body>
+</html>
