@@ -1,12 +1,60 @@
 import csv
 from typing import List, Optional
 from models import Player, PlayerWithID
+from fastapi import APIRouter, HTTPException
+router = APIRouter()
 
 PLAYER_CSV = "data/players.csv"
 DELETED_PLAYER_CSV = "data/deleted_players.csv"
 PLAYER_FIELDS = ["id", "name", "health", "regenerate_health", "speed", "jump", "is_dead", "armor", "hit_speed"]
 
+#epoints router:
+@router.get("/players", response_model=List[PlayerWithID])
+async def get_players():
+    return await read_all_players()
 
+@router.get("/players/{player_id}", response_model=PlayerWithID)
+async def get_player(player_id: int):
+    player = await read_one_player(player_id)
+    if not player:
+        raise HTTPException(status_code=404, detail="Player not found")
+    return player
+
+@router.post("/players", response_model=PlayerWithID)
+async def post_player(player: Player):
+    return await create_player(player)
+
+@router.put("/players/{player_id}", response_model=PlayerWithID)
+async def put_player(player_id: int, player_update: dict):
+    updated = await update_player(player_id, player_update)
+    if not updated:
+        raise HTTPException(status_code=404, detail="Player not found")
+    return updated
+
+@router.delete("/players/{player_id}", response_model=PlayerWithID)
+async def delete_single_player(player_id: int):
+    deleted = await delete_player(player_id)
+    if not deleted:
+        raise HTTPException(status_code=404, detail="Player not found")
+    return deleted
+
+@router.delete("/players", response_model=List[PlayerWithID])
+async def delete_all():
+    return await delete_all_players()
+
+@router.get("/players/deleted", response_model=List[PlayerWithID])
+async def get_deleted_players():
+    return await read_deleted_players()
+
+@router.put("/players/revive/{player_id}", response_model=PlayerWithID)
+async def revive(player_id: int):
+    revived = await revive_player_by_id(player_id)
+    if not revived:
+        raise HTTPException(status_code=404, detail="Player not found")
+    return revived
+
+
+#endpoints
 async def read_all_players() -> List[PlayerWithID]:
     players = []
     try:
