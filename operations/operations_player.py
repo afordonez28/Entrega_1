@@ -34,22 +34,22 @@ def append_to_deleted_players(player: PlayerWithID):
 
 def read_players_from_csv(file_path: str = CSV_FILE) -> List[PlayerWithID]:
     players = []
-    if not os.path.exists(file_path):
-        return players
-    with open(file_path, mode="r", encoding="utf-8") as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            players.append(PlayerWithID(
-                id=int(row["id"]),
-                name=row["name"],
-                health=int(row["health"]),
-                regenerate_health=int(row["regenerate_health"]),
-                speed=float(row["speed"]),
-                jump=float(row["jump"]),
-                is_dead=row["is_dead"] == "True",
-                armor=int(row["armor"]),
-                hit_speed=int(row["hit_speed"]),
-            ))
+    try:
+        with open(file_path, mode="r", encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                row["id"] = int(row["id"])
+                row["name"] = row["name"]
+                row["health"] = int(row["health"])
+                row["regenerate_health"] = int(row["regenerate_health"])
+                row["speed"] = int(row["speed"])
+                row["jump"] = int(row["jump"])
+                row["is_dead"] = int(row["is_dead"])
+                row["armor"] = int(row["armor"])
+                row["hit_speed"] = int(row["hit_speed"])
+                players.append(PlayerWithID(**row))
+    except FileNotFoundError:
+        pass
     return players
 
 # ------------------------ CRUD PRINCIPALES ------------------------
@@ -68,7 +68,7 @@ async def get_player(player_id: int) -> Optional[PlayerWithID]:
     return None
 
 async def create_player(player: Player) -> PlayerWithID:
-    players = await get_all_players()
+    players = read_players_from_csv()
     new_id = max([p.id for p in players], default=0) + 1
     player_with_id = PlayerWithID(id=new_id, **player.dict())
     players.append(player_with_id)
