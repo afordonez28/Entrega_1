@@ -7,6 +7,11 @@ CSV_FILE = "data/player.csv"
 DELETED_CSV_FILE = "data/deleted_player.csv"
 FIELDNAMES = ["id", "name", "health", "regenerate_health", "speed", "jump", "is_dead", "armor", "hit_speed"]
 
+from fastapi import APIRouter
+
+router = APIRouter()
+
+
 # ------------------------ FUNCIONES AUXILIARES ------------------------
 
 def write_players_to_csv(players: List[PlayerWithID], file_path: str = CSV_FILE):
