@@ -1,0 +1,3 @@
+id,name,health,regenerate_health,speed,jump,is_dead,armor,hit_speed
+5,Pepe,0,0,1.0,1.0,True,0,0
+5,Ricardito,0,0,1.0,1.0,True,0,0

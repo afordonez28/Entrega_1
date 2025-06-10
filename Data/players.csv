@@ -1,0 +1,5 @@
+id,name,health,regenerate_health,speed,jump,is_dead,armor,hit_speed
+1,pepe,0,0,1.0,1.0,True,0,0
+2,pepe,0,0,1.0,1.0,True,0,0
+3,pepe,0,0,1.0,1.0,True,0,0
+4,Pepe,0,0,1.0,1.0,True,0,0

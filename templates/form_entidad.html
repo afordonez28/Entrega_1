@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}{{ 'Editar' if entidad else 'Nueva Entidad' }}{% endblock %}
+{% block content %}
+<h1>{{ 'Editar' if entidad else 'Registrar' }}</h1>
+<form method="post" enctype="multipart/form-data" action="{{ url }}">
+  <label>Nombre</label><input name="nombre" value="{{ entidad.nombre if entidad }}">
+  <label>Tipo</label>
+  <select name="tipo">
+    <option value="player" {% if entidad and entidad.tipo=='player' %}selected{% endif %}>Jugador</option>
+    <option value="enemy" {% if entidad and entidad.tipo=='enemy' %}selected{% endif %}>Enemigo</option>
+  </select>
+  <label>Health</label><input name="health" type="number" value="{{ entidad.health if entidad }}">
+  <label>Armor / Speed</label><input name="attr" type="text" value="{{ entidad.attr if entidad }}">
+  <label>Imagen</label><input name="imagen" type="file">
+  <input type="submit" value="Guardar">
+</form>
+{% endblock %}

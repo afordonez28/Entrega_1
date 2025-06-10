@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Entidades</h1>
+<form action="/entidades">
+  <label>Buscar por nombre</label><input name="nombre">
+  <input type="submit" value="Buscar">
+</form>
+<ul>
+{% for ent in entidades %}
+  <li><a href="/entidades/{{ ent.id }}">{{ ent.nombre }} ({{ ent.tipo }})</a></li>
+{% endfor %}
+</ul>
+{% endblock %}
