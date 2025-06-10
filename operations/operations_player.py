@@ -3,12 +3,14 @@ import os
 from typing import List, Optional
 from models import Player, PlayerWithID
 from fastapi import UploadFile
-
+import shutil
 
 # Paths
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(BASE_DIR, "../data")
+UPLOADS_DIR = os.path.join(DATA_DIR, "uploads")
 os.makedirs(DATA_DIR, exist_ok=True)
+os.makedirs(UPLOADS_DIR, exist_ok=True)
 
 PLAYER_CSV = os.path.join(DATA_DIR, "players.csv")
 DELETED_CSV = os.path.join(DATA_DIR, "deleted_players.csv")
@@ -32,11 +34,26 @@ async def read_one_player(player_id: int) -> Optional[PlayerWithID]:
     return next((p for p in players if p.id == player_id), None)
 
 
-async def create_player(player: Player) -> PlayerWithID:
+async def create_player(player: Player, image: Optional[UploadFile] = None) -> Optional[PlayerWithID]:
     players = await read_all_players()
+
+    # Validar duplicados por nombre
+    if any(p.name.lower() == player.name.lower() for p in players):
+        return None
+
     new_id = max((p.id for p in players), default=0) + 1
     new_player = PlayerWithID(id=new_id, **player.dict())
     _write_players(players + [new_player])
+
+    # Guardar imagen (opcional)
+    if image:
+        extension = os.path.splitext(image.filename)[1].lower()
+        if extension not in [".png", ".jpg", ".jpeg"]:
+            raise ValueError("Formato de imagen no permitido.")
+        image_path = os.path.join(UPLOADS_DIR, f"player_{new_id}{extension}")
+        with open(image_path, "wb") as f:
+            shutil.copyfileobj(image.file, f)
+
     return new_player
 
 
@@ -141,4 +158,3 @@ def _write_deleted(players: List[PlayerWithID]):
         writer.writeheader()
         for p in players:
             writer.writerow(p.dict())
-
