@@ -342,6 +342,26 @@ async def submit_enemy_form(
     return RedirectResponse(url="/enemies/html", status_code=302)
 
 
+@app.get("/historial_enemigos", response_class=HTMLResponse)
+async def historial_enemigos(request: Request):
+    historial = await read_deleted_enemies()
+    return templates.TemplateResponse("historial.html", {
+        "request": request,
+        "historial": historial,
+        "titulo": "☠️ Enemigos Eliminados"
+    })
+
+@app.get("/estadisticas", response_class=HTMLResponse)
+async def estadisticas(request: Request):
+    jugadores = await read_all_players()
+    enemigos = await read_all_enemies()
+    return templates.TemplateResponse("estadisticas.html", {
+        "request": request,
+        "jugadores": jugadores,
+        "enemigos": enemigos
+    })
+
+
 # ------------------ Run -------------------
 if __name__ == "__main__":
     uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)

@@ -1,4 +1,3 @@
-<!-- estadisticas.html -->
 {% extends "base.html" %}
 {% block content %}
 <h2>📊 Estadísticas del Juego</h2>
@@ -6,13 +5,35 @@
     <img src="/static/uploads/estadistica1.png" alt="Gráfico 1">
     <img src="/static/uploads/estadistica2.png" alt="Gráfico 2">
 </div>
+
+<h3>👥 Jugadores</h3>
 <table>
     <thead>
         <tr><th>Nombre</th><th>Salud</th><th>Estado</th></tr>
     </thead>
     <tbody>
         {% for jugador in jugadores %}
-        <tr><td>{{ jugador.name }}</td><td>{{ jugador.health }}</td><td>{{ "Muerto" if jugador.is_dead else "Vivo" }}</td></tr>
+        <tr>
+            <td>{{ jugador.name }}</td>
+            <td>{{ jugador.health }}</td>
+            <td>{{ "Muerto" if jugador.is_dead else "Vivo" }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h3>👾 Enemigos</h3>
+<table>
+    <thead>
+        <tr><th>Nombre</th><th>Salud</th><th>Tipo</th></tr>
+    </thead>
+    <tbody>
+        {% for enemigo in enemigos %}
+        <tr>
+            <td>{{ enemigo.name }}</td>
+            <td>{{ enemigo.health }}</td>
+            <td>{{ enemigo.type }}</td>
+        </tr>
         {% endfor %}
     </tbody>
 </table>

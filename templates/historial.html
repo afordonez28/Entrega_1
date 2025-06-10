@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>{{ titulo }}</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            {% if historial and 'armor' in historial[0] %}
+            <th>Armadura</th>
+            {% else %}
+            <th>Tipo</th>
+            {% endif %}
+            <th>Estado</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for entidad in historial %}
+        <tr>
+            <td>{{ entidad.name }}</td>
+            {% if 'armor' in entidad %}
+            <td>{{ entidad.armor }}</td>
+            {% else %}
+            <td>{{ entidad.type }}</td>
+            {% endif %}
+            <td>{{ "Muerto" if entidad.is_dead else "Vivo" }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
