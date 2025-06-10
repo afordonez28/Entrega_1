@@ -1,7 +1,7 @@
 import csv
 from typing import List, Optional
 from models import Enemy, EnemyWithID
-
+#cambiado
 ENEMY_CSV = "data/enemies.csv"
 DELETED_ENEMY_CSV = "data/deleted_enemies.csv"
 ENEMY_FIELDS = ["id", "name", "speed", "jump", "hit_speed", "health", "type", "spawn", "probability_spawn"]
