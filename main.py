@@ -186,7 +186,8 @@ async def add_enemy(enemy: Enemy):
 
 @app.get("/enemies/", response_model=List[EnemyWithID])
 async def get_enemies():
-    return read_all_enemies()
+    return await read_all_enemies()
+
 
 
 
@@ -229,7 +230,7 @@ async def delete_all_enemies(confirm: bool = Query(False, description="Confirm d
 
 @app.get("/enemies/{enemy_id}", response_model=EnemyWithID)
 async def get_enemy(enemy_id: int):
-    enemy = read_one_enemy(enemy_id)
+    enemy = await read_one_enemy(enemy_id)
     if not enemy:
         raise HTTPException(status_code=404, detail="Enemy not found")
     return enemy

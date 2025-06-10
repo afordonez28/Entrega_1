@@ -1,2 +1,4 @@
 id,name,speed,jump,hit_speed,health,type,spawn,probability_spawn
-1,petro,1.5,1.2,2,100,goblin,3.0,0.5
+3,petro,1.5,1.2,2,100,goblin,3.0,0.5
+4,Orco,1.5,1.2,2,100,goblin,3.0,0.5
+5,Orco,1.5,1.2,2,100,goblin,3.0,0.5

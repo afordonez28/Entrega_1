@@ -74,8 +74,8 @@ def read_deleted_enemies() -> List[EnemyWithID]:
         pass
     return enemies
 
-def read_one_enemy(enemy_id: int) -> Optional[EnemyWithID]:
-    enemies = read_all_enemies()
+async def read_one_enemy(enemy_id: int) -> Optional[EnemyWithID]:
+    enemies = await read_all_enemies()
     for enemy in enemies:
         if enemy.id == enemy_id:
             return enemy
