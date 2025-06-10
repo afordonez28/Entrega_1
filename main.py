@@ -1,4 +1,4 @@
-main:
+
 from fastapi import FastAPI, Depends, HTTPException, Query, Request, Form, File, UploadFile
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
