@@ -23,9 +23,10 @@ import shutil
 import uvicorn
 import os
 
+app = FastAPI()
 from operations.operations_player import router as player_router
 app.include_router(player_router, prefix="/api/players", tags=["Players"])
-app = FastAPI()
+
 
 # HTML config
 app.mount("/static", StaticFiles(directory="static"), name="static")
