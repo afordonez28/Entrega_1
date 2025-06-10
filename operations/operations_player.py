@@ -7,11 +7,9 @@ CSV_FILE = "data/player.csv"
 DELETED_CSV_FILE = "data/deleted_player.csv"
 FIELDNAMES = ["id", "name", "health", "regenerate_health", "speed", "jump", "is_dead", "armor", "hit_speed"]
 
-import csv
-import os
+
 from typing import List, Optional
 from models import Player, PlayerWithID  # Asegúrate de tener estos modelos definidos
-from config import CSV_FILE, DELETED_CSV_FILE, FIELDNAMES  # Ajusta rutas/constantes si es necesario
 
 # ------------------------ UTILIDADES DE ARCHIVO ------------------------
 
