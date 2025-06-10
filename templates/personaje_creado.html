@@ -1,18 +1,19 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="detalle-container">
-    <h2 class="detalle-title">🎉 ¡Personaje Creado!</h2>
-    <div class="detalle-box">
-        <p><strong>Nombre:</strong> {{ player.name }}</p>
-        <p><strong>Salud:</strong> {{ player.health }}</p>
-        <p><strong>Armadura:</strong> {{ player.armor }}</p>
-        <p><strong>Estado:</strong> {{ "Muerto" if player.is_dead else "Vivo" }}</p>
-    </div>
-    <div class="detalle-imagenes">
-        <img src="{{ imagen if imagen else '/static/uploads/default.png' }}" alt="Imagen del personaje" width="200">
-
-    </div>
-    <a href="/players/html"><wired-button>Ver todos los personajes</wired-button></a>
+<h1 class="titulo">🎉 ¡Personaje Creado!</h1>
+<div class="card centrado">
+  <img src="{{ imagen }}" alt="{{ player.name }}" class="card-img">
+  <div class="card-body">
+    <h2>{{ player.name }}</h2>
+    <p><strong>Salud:</strong> {{ player.health }}</p>
+    <p><strong>Armadura:</strong> {{ player.armor }}</p>
+    <p><strong>Regeneración:</strong> {{ player.regenerate_health }}</p>
+    <p><strong>Velocidad:</strong> {{ player.speed }}</p>
+    <p><strong>Salto:</strong> {{ player.jump }}</p>
+    <p><strong>Velocidad de Golpe:</strong> {{ player.hit_speed }}</p>
+    <p><strong>Estado:</strong> {% if player.is_dead %}💀 Muerto{% else %}🧍 Vivo{% endif %}</p>
+  </div>
 </div>
+<a href="/players/html" class="boton">⬅️ Ver Todos los Personajes</a>
 {% endblock %}

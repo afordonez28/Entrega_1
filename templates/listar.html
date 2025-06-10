@@ -1,54 +1,22 @@
 {% extends "base.html" %}
+
 {% block content %}
-
-<h2 style="text-align:center; font-family: 'Press Start 2P', cursive;">{{ titulo }}</h2>
-
-{# Botones para eliminar todos, dependiendo del título #}
-<div style="text-align: center; margin-top: 1rem;">
-  {% if titulo == "Personajes" %}
-    <form action="/players/delete_all" method="post" onsubmit="return confirm('¿Estás seguro de eliminar TODOS los jugadores? Esta acción no se puede deshacer.');" style="display: inline;">
-      <button type="submit" style="background-color: red; color: white; padding: 10px; font-family: 'Press Start 2P', cursive;">
-        🗑️ Eliminar todos los jugadores
-      </button>
-    </form>
-  {% elif titulo == "Enemigos" %}
-    <form action="/enemies/delete_all" method="post" onsubmit="return confirm('¿Estás seguro de eliminar TODOS los enemigos? Esta acción no se puede deshacer.');" style="display: inline;">
-      <button type="submit" style="background-color: red; color: white; padding: 10px; font-family: 'Press Start 2P', cursive;">
-        🗑️ Eliminar todos los enemigos
-      </button>
-    </form>
-  {% endif %}
-</div>
-
-<div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 2rem; padding: 1rem;">
-  {% for imagen in imagenes %}
-    <div>
-      <img src="{{ imagen }}" alt="Sprite" width="150" style="image-rendering: pixelated; border: 2px solid #000;">
+<h1 class="titulo">{{ titulo }}</h1>
+<div class="contenedor-listado">
+  {% for elemento in elementos %}
+    <div class="card">
+      <img src="{{ imagenes[loop.index0 % imagenes|length] }}" alt="Imagen" class="card-img">
+      <div class="card-body">
+        <h2>{{ elemento.name }}</h2>
+        <ul>
+          <li><strong>Salud:</strong> {{ elemento.health }}</li>
+          <li><strong>Armadura:</strong> {{ elemento.armor }}</li>
+          <li><strong>Velocidad:</strong> {{ elemento.speed }}</li>
+          <li><strong>Salto:</strong> {{ elemento.jump }}</li>
+          <li><strong>Está muerto:</strong> {{ elemento.is_dead }}</li>
+        </ul>
+      </div>
     </div>
   {% endfor %}
 </div>
-
-<hr style="margin: 2rem 0;">
-
-<h3 style="text-align:center;">Listado</h3>
-
-<table style="margin: 0 auto; border-collapse: collapse; font-family: monospace;">
-  <thead>
-    <tr>
-      {% for key in elementos[0].dict().keys() %}
-        <th style="border: 1px solid black; padding: 5px;">{{ key }}</th>
-      {% endfor %}
-    </tr>
-  </thead>
-  <tbody>
-    {% for e in elementos %}
-      <tr>
-        {% for value in e.dict().values() %}
-          <td style="border: 1px solid black; padding: 5px;">{{ value }}</td>
-        {% endfor %}
-      </tr>
-    {% endfor %}
-  </tbody>
-</table>
-
 {% endblock %}
