@@ -3,6 +3,23 @@
 
 <h2 style="text-align:center; font-family: 'Press Start 2P', cursive;">{{ titulo }}</h2>
 
+{# Botones para eliminar todos, dependiendo del título #}
+<div style="text-align: center; margin-top: 1rem;">
+  {% if titulo == "Personajes" %}
+    <form action="/players/delete_all" method="post" onsubmit="return confirm('¿Estás seguro de eliminar TODOS los jugadores? Esta acción no se puede deshacer.');" style="display: inline;">
+      <button type="submit" style="background-color: red; color: white; padding: 10px; font-family: 'Press Start 2P', cursive;">
+        🗑️ Eliminar todos los jugadores
+      </button>
+    </form>
+  {% elif titulo == "Enemigos" %}
+    <form action="/enemies/delete_all" method="post" onsubmit="return confirm('¿Estás seguro de eliminar TODOS los enemigos? Esta acción no se puede deshacer.');" style="display: inline;">
+      <button type="submit" style="background-color: red; color: white; padding: 10px; font-family: 'Press Start 2P', cursive;">
+        🗑️ Eliminar todos los enemigos
+      </button>
+    </form>
+  {% endif %}
+</div>
+
 <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 2rem; padding: 1rem;">
   {% for imagen in imagenes %}
     <div>

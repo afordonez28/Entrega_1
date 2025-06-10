@@ -27,6 +27,9 @@ def append_to_deleted_enemies(enemy: EnemyWithID):
     except Exception as e:
         print(f"Error writing to deleted_enemies.csv: {e}")
 
+
+
+
 # -----------------------------------------
 # LECTURAS
 # -----------------------------------------
@@ -105,16 +108,23 @@ async def update_enemy(enemy_id: int, enemy_update: dict) -> Optional[EnemyWithI
     return None
 
 async def delete_enemy(enemy_id: int) -> Optional[EnemyWithID]:
-    enemies = read_all_enemies()
-    removed_enemy = None
+    enemies = await read_all_enemies()
     new_enemies = []
+    removed_enemy = None
     for enemy in enemies:
         if enemy.id == enemy_id:
             removed_enemy = enemy
         else:
             new_enemies.append(enemy)
     if removed_enemy:
-        write_enemies_to_csv(new_enemies)
-        append_to_deleted_enemies(removed_enemy)
+        await write_enemies_to_csv(new_enemies)
+        await append_to_deleted_enemies(removed_enemy)
         return removed_enemy
     return None
+
+async def delete_all_enemies() -> List[EnemyWithID]:
+    enemies = await read_all_enemies()
+    for enemy in enemies:
+        await append_to_deleted_enemies(enemy)
+    await write_enemies_to_csv([])
+    return enemies

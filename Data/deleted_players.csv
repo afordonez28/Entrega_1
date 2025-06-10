@@ -9,3 +9,9 @@ id,name,health,regenerate_health,speed,jump,is_dead,armor,hit_speed
 10,sadasdasd,150,14,14.0,14.0,False,4456,14
 11,pepita,0,0,1.0,1.0,True,0,0
 12,pepita,0,0,1.0,1.0,True,0,0
+1,pepe,0,0,1.0,1.0,True,0,0
+3,pepe,0,0,1.0,1.0,True,0,0
+4,Pepe,0,0,1.0,1.0,True,0,0
+5,pepito,0,0,1.0,1.0,True,0,0
+6,Felipe,12,12,15.0,46.0,False,12,64
+7,Felipe,12,12,15.0,46.0,False,12,64

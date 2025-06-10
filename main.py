@@ -14,6 +14,9 @@ from operations.operations_enemy import (
     read_all_enemies, read_one_enemy, create_enemy, update_enemy,
     delete_enemy, read_deleted_enemies,
 )
+from operations.operations_player import delete_all_players as op_delete_all_players
+from operations.operations_enemy import delete_all_enemies as op_delete_all_enemies
+
 from utils.conection_db import get_session, init_db
 from modelos.player_sql import PlayerModel
 import shutil
@@ -121,6 +124,13 @@ async def submit_player_form(
 async def get_players():
     return await read_all_players()
 
+@app.delete("/players/delete_all", response_model=List[PlayerWithID])
+async def delete_all_players(confirm: bool = Query(False)):
+    if not confirm:
+        raise HTTPException(status_code=400, detail="Set confirm=true to delete all players")
+    return await op_delete_all_players()
+
+
 @app.get("/players/{player_id}", response_model=PlayerWithID)
 async def get_player(player_id: int):
     player = await read_one_player(player_id)
@@ -178,12 +188,7 @@ async def add_enemy(enemy: Enemy):
 async def get_enemies():
     return read_all_enemies()
 
-@app.get("/enemies/{enemy_id}", response_model=EnemyWithID)
-async def get_enemy(enemy_id: int):
-    enemy = read_one_enemy(enemy_id)
-    if not enemy:
-        raise HTTPException(status_code=404, detail="Enemy not found")
-    return enemy
+
 
 @app.put("/enemies/{enemy_id}", response_model=EnemyWithID)
 async def update_enemy_endpoint(enemy_id: int, enemy_update: Enemy):
@@ -208,6 +213,28 @@ async def get_deleted_enemies():
 async def get_players_sql(session: AsyncSession = Depends(get_session)):
     result = await session.execute(select(PlayerModel))
     return result.scalars().all()
+
+# Eliminar todos los jugadores
+@app.delete("/players/delete_all", response_model=List[PlayerWithID])
+async def delete_all_players(confirm: bool = Query(False, description="Confirm deletion")):
+    if not confirm:
+        raise HTTPException(status_code=400, detail="Set confirm=true to delete all players")
+    return await op_delete_all_players()
+
+@app.delete("/enemies/delete_all", response_model=List[EnemyWithID])
+async def delete_all_enemies(confirm: bool = Query(False, description="Confirm deletion")):
+    if not confirm:
+        raise HTTPException(status_code=400, detail="Set confirm=true to delete all enemies")
+    return await op_delete_all_enemies()
+
+@app.get("/enemies/{enemy_id}", response_model=EnemyWithID)
+async def get_enemy(enemy_id: int):
+    enemy = read_one_enemy(enemy_id)
+    if not enemy:
+        raise HTTPException(status_code=404, detail="Enemy not found")
+    return enemy
+
+
 
 # ------------------ Endpoints Informativos -------------------
 @app.get("/desarrollador", response_class=HTMLResponse)

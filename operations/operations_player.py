@@ -27,6 +27,14 @@ async def read_all_players() -> List[PlayerWithID]:
         pass
     return players
 
+async def delete_all_players() -> List[PlayerWithID]:
+    players = await read_all_players()
+    for player in players:
+        await append_to_deleted_players(player)
+    await write_players_to_csv([])  # Vacía el archivo
+    return players
+
+
 
 async def read_one_player(player_id: int) -> Optional[PlayerWithID]:
     players = await read_all_players()
