@@ -117,7 +117,8 @@ async def submit_player_form(
         jump=jump,
         hit_speed=hit_speed
     )
-    new_player = await create_player(player)
+    new_player = await create_player(player, image=image)
+
 
     # 👇 Aquí asegúrate que sea una f-string real, NO una cadena con llaves literales
     return RedirectResponse(url=f"/players/created/{new_player.id}", status_code=302)
@@ -147,7 +148,8 @@ async def add_player(player: Player):
 
 @app.put("/players/{player_id}", response_model=PlayerWithID)
 async def update_player_endpoint(player_id: int, player_update: Player):
-    updated_player = update_player(player_id, player_update.dict(exclude_unset=True))
+    updated_player = await update_player(player_id, player_update.dict(exclude_unset=True))
+
     if not updated_player:
         raise HTTPException(status_code=404, detail="Player not found")
     return updated_player
@@ -173,10 +175,11 @@ async def search_players_by_health(min_health: int = Query(0)):
 
 @app.put("/players/{player_id}/revive", response_model=PlayerWithID)
 async def revive_player(player_id: int):
-    player = revive_player_by_id(player_id)
+    player = await revive_player_by_id(player_id)
     if not player:
         raise HTTPException(status_code=404, detail="Player not found")
     return player
+
 
 @app.get("/players/deleted/", response_model=List[PlayerWithID])
 async def get_deleted_players():

@@ -34,16 +34,29 @@ async def read_one_player(player_id: int) -> Optional[PlayerWithID]:
     return next((p for p in players if p.id == player_id), None)
 
 
-async def create_player(player: Player, image: Optional[UploadFile] = None) -> Optional[PlayerWithID]:
+async def create_player(player: Player, image: Optional[UploadFile] = None) -> PlayerWithID:
     players = await read_all_players()
+    new_id = (max([p.id for p in players]) + 1) if players else 1
 
-    # Validar duplicados por nombre
-    if any(p.name.lower() == player.name.lower() for p in players):
-        return None
-
-    new_id = max((p.id for p in players), default=0) + 1
     new_player = PlayerWithID(id=new_id, **player.dict())
-    _write_players(players + [new_player])
+
+    # Guardar imagen si fue proporcionada
+    if image:
+        image_filename = f"{player.name.lower().replace(' ', '_')}.png"
+        image_path = os.path.join(UPLOADS_DIR, image_filename)
+        with open(image_path, "wb") as buffer:
+            shutil.copyfileobj(image.file, buffer)
+
+    # Guardar en CSV
+    file_exists = os.path.exists(PLAYER_CSV)
+    with open(PLAYER_CSV, mode="a", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=FIELDS)
+        if not file_exists:
+            writer.writeheader()
+        writer.writerow(new_player.dict())
+
+    return new_player
+
 
     # Guardar imagen (opcional)
     if image:
