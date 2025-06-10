@@ -1,130 +1,123 @@
 import csv
-from typing import List, Optional
+import os
+from typing import List
 from models import Player, PlayerWithID
 
-PLAYER_CSV = "data/players.csv"
-DELETED_PLAYER_CSV = "data/deleted_players.csv"
-PLAYER_FIELDS = [
+# ------------------------ RUTAS Y CONSTANTES ------------------------
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+CSV_FILE = os.path.join(BASE_DIR, "../data/players.csv")
+DELETED_CSV_FILE = os.path.join(BASE_DIR, "../data/deleted_players.csv")
+
+FIELDNAMES = [
     "id", "name", "health", "regenerate_health",
     "speed", "jump", "is_dead", "armor", "hit_speed"
 ]
 
-# -----------------------------------------
-# FUNCIONES AUXILIARES
-# -----------------------------------------
+# ------------------------ FUNCIONES AUXILIARES ------------------------
 
-def write_players_to_csv(players: List[PlayerWithID]):
-    with open(PLAYER_CSV, mode="w", newline="") as csvfile:
-        writer = csv.DictWriter(csvfile, fieldnames=PLAYER_FIELDS)
+def _read_csv(file_path: str) -> List[PlayerWithID]:
+    data = []
+    if not os.path.exists(file_path):
+        return data
+    with open(file_path, mode="r", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            data.append(PlayerWithID(
+                id=int(row["id"]),
+                name=row["name"],
+                health=int(row["health"]),
+                regenerate_health=int(row["regenerate_health"]),
+                speed=float(row["speed"]),
+                jump=float(row["jump"]),
+                is_dead=row["is_dead"] == "True",
+                armor=int(row["armor"]),
+                hit_speed=int(row["hit_speed"]),
+            ))
+    return data
+
+def _write_csv(file_path: str, data: List[PlayerWithID]):
+    with open(file_path, mode="w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=FIELDNAMES)
         writer.writeheader()
-        for player in players:
-            writer.writerow(player.dict())
+        for item in data:
+            writer.writerow(item.dict())
 
-def append_to_deleted_players(player: PlayerWithID):
-    try:
-        with open(DELETED_PLAYER_CSV, mode="a", newline="") as csvfile:
-            writer = csv.DictWriter(csvfile, fieldnames=PLAYER_FIELDS)
-            if csvfile.tell() == 0:
-                writer.writeheader()
-            writer.writerow(player.dict())
-    except Exception as e:
-        print(f"Error writing to deleted_players.csv: {e}")
+def _append_to_csv(file_path: str, item: PlayerWithID):
+    file_exists = os.path.exists(file_path)
+    with open(file_path, mode="a", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=FIELDNAMES)
+        if not file_exists or os.stat(file_path).st_size == 0:
+            writer.writeheader()
+        writer.writerow(item.dict())
 
-# -----------------------------------------
-# LECTURAS
-# -----------------------------------------
+# ------------------------ CRUD ------------------------
 
-def read_all_players() -> List[PlayerWithID]:
-    players = []
-    try:
-        with open(PLAYER_CSV, mode="r", newline="") as csvfile:
-            reader = csv.DictReader(csvfile)
-            for row in reader:
-                row['id'] = int(row['id'])
-                row['name'] = row.get('name', 'SinNombre')
-                row['health'] = int(row['health'])
-                row['regenerate_health'] = int(row['regenerate_health'])
-                row['speed'] = int(row['speed'])
-                row['jump'] = int(row['jump'])
-                row['is_dead'] = row['is_dead'] == 'True'
-                row['armor'] = int(row['armor'])
-                row['hit_speed'] = int(row['hit_speed'])
-                players.append(PlayerWithID(**row))
-    except FileNotFoundError:
-        pass
-    return players
+async def get_all_players() -> List[PlayerWithID]:
+    return _read_csv(CSV_FILE)
 
-def read_deleted_players() -> List[PlayerWithID]:
-    players = []
-    try:
-        with open(DELETED_PLAYER_CSV, mode="r", newline="") as csvfile:
-            reader = csv.DictReader(csvfile)
-            for row in reader:
-                row['id'] = int(row['id'])
-                row['name'] = row.get('name', 'SinNombre')
-                row['health'] = int(row['health'])
-                row['regenerate_health'] = int(row['regenerate_health'])
-                row['speed'] = int(row['speed'])
-                row['jump'] = int(row['jump'])
-                row['is_dead'] = row['is_dead'] == 'True'
-                row['armor'] = int(row['armor'])
-                row['hit_speed'] = int(row['hit_speed'])
-                players.append(PlayerWithID(**row))
-    except FileNotFoundError:
-        pass
-    return players
+async def get_deleted_players() -> List[PlayerWithID]:
+    return _read_csv(DELETED_CSV_FILE)
 
-async def read_one_player(player_id: int) -> Optional[PlayerWithID]:
-    players = read_all_players()
-    for player in players:
-        if player.id == player_id:
-            return player
+async def get_player(player_id: int) -> PlayerWithID | None:
+    data = _read_csv(CSV_FILE)
+    for item in data:
+        if item.id == player_id:
+            return item
     return None
-
-# -----------------------------------------
-# CRUD PRINCIPALES
-# -----------------------------------------
 
 async def create_player(player: Player) -> PlayerWithID:
-    players = read_all_players()
-    new_id = max([p.id for p in players], default=0) + 1
-    player_with_id = PlayerWithID(id=new_id, **player.dict())
-    players.append(player_with_id)
-    write_players_to_csv(players)
-    return player_with_id
+    data = _read_csv(CSV_FILE)
+    new_id = max([item.id for item in data], default=0) + 1
+    new_player = PlayerWithID(id=new_id, **player.dict())
+    _append_to_csv(CSV_FILE, new_player)
+    return new_player
 
-async def update_player(player_id: int, player_update: dict) -> Optional[PlayerWithID]:
-    players = read_all_players()
-    updated_player = None
-    for player in players:
-        if player.id == player_id:
-            for key, value in player_update.items():
-                setattr(player, key, value)
-            updated_player = player
+async def update_player(player_id: int, updated_data: dict) -> PlayerWithID | None:
+    data = _read_csv(CSV_FILE)
+    updated = None
+    for i, item in enumerate(data):
+        if item.id == player_id:
+            updated_dict = {**item.dict(), **updated_data}
+            updated = PlayerWithID(**updated_dict)
+            data[i] = updated
             break
-    if updated_player:
-        write_players_to_csv(players)
-        return updated_player
-    return None
+    if updated:
+        _write_csv(CSV_FILE, data)
+    return updated
 
-async def delete_player(player_id: int) -> Optional[PlayerWithID]:
-    players = read_all_players()
-    new_players = []
-    removed_player = None
-    for player in players:
-        if player.id == player_id:
-            removed_player = player
+async def delete_player(player_id: int) -> PlayerWithID | None:
+    data = _read_csv(CSV_FILE)
+    deleted = None
+    new_data = []
+    for item in data:
+        if item.id == player_id:
+            deleted = item
         else:
-            new_players.append(player)
-    if removed_player:
-        write_players_to_csv(new_players)
-        append_to_deleted_players(removed_player)
-        return removed_player
-    return None
+            new_data.append(item)
+    if deleted:
+        _write_csv(CSV_FILE, new_data)
+        _append_to_csv(DELETED_CSV_FILE, deleted)
+    return deleted
 
 async def delete_all_players() -> List[PlayerWithID]:
-    players = read_all_players()
-    for player in players:
-        append_to_deleted_players(player)
-    write_players_to_csv([])
-    return players
+    data = _read_csv(CSV_FILE)
+    for item in data:
+        _append_to_csv(DELETED_CSV_FILE, item)
+    _write_csv(CSV_FILE, [])
+    return data
+
+async def restore_player(player_id: int) -> PlayerWithID | None:
+    deleted = _read_csv(DELETED_CSV_FILE)
+    to_restore = None
+    remaining = []
+    for item in deleted:
+        if item.id == player_id:
+            to_restore = item
+        else:
+            remaining.append(item)
+    if to_restore:
+        current = _read_csv(CSV_FILE)
+        current.append(to_restore)
+        _write_csv(CSV_FILE, current)
+        _write_csv(DELETED_CSV_FILE, remaining)
+    return to_restore
