@@ -35,14 +35,42 @@ async def home(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
 # ------------------ HTML Pages -------------------
-@app.get("/players/html", response_class=HTMLResponse)
-async def list_players_html(request: Request):
-    players = read_all_players()
-    return templates.TemplateResponse("listar.html", {"request": request, "players": players})
 
 @app.get("/players/form", response_class=HTMLResponse)
 async def form_player(request: Request):
     return templates.TemplateResponse("form_entidad.html", {"request": request})
+
+@app.get("/players/html", response_class=HTMLResponse)
+async def list_players_html(request: Request):
+    players = read_all_players()
+    imagenes = [
+        "/static/uploads/personaje1.png",
+        "/static/uploads/personaje2.png",
+        "/static/uploads/personaje3.png",
+        "/static/uploads/personaje4.png",
+    ]
+    return templates.TemplateResponse("listar.html", {
+        "request": request,
+        "elementos": players,
+        "imagenes": imagenes,
+        "titulo": "Personajes"
+    })
+
+@app.get("/enemies/html", response_class=HTMLResponse)
+async def list_enemies_html(request: Request):
+    enemies = read_all_enemies()
+    imagenes = [
+        "/static/uploads/enemigo1.png",
+        "/static/uploads/enemigo2.png",
+        "/static/uploads/enemigo3.png",
+        "/static/uploads/enemigo4.png",
+    ]
+    return templates.TemplateResponse("listar.html", {
+        "request": request,
+        "elementos": enemies,
+        "imagenes": imagenes,
+        "titulo": "Enemigos"
+    })
 
 @app.post("/players/form")
 async def submit_player_form(
@@ -164,7 +192,7 @@ async def info_desarrollador(request: Request):
         <li><strong>Semestre:</strong> Séptimo</li>
     </ul>
     """
-    return templates.TemplateResponse("detalle.html", {"request": request, "titulo": "👨‍💻 Desarrollador", "contenido": contenido})
+    return templates.TemplateResponse("detalle.html", {"request": request, "titulo": "👨‍💻 Desarrollador", "info": contenido})
 
 @app.get("/objetivo", response_class=HTMLResponse)
 async def objetivo_proyecto(request: Request):
@@ -172,7 +200,10 @@ async def objetivo_proyecto(request: Request):
     <p>Crear la interfaz gráfica de un videojuego 2D utilizando gráficos PixelArt en Godot Engine, que fomente la creatividad
     y la capacidad de diseñar mientras el jugador observa y enfrenta oleadas de enemigos.</p>
     """
-    return templates.TemplateResponse("detalle.html", {"request": request, "titulo": "🎯 Objetivo del Proyecto", "contenido": contenido})
+    return templates.TemplateResponse("detalle.html", {
+        "request": request,
+        "titulo": "🎯 Objetivo del Proyecto",
+        "info": contenido})
 
 @app.get("/planeacion", response_class=HTMLResponse)
 async def planeacion(request: Request):
@@ -180,7 +211,7 @@ async def planeacion(request: Request):
     <p>La fase de planeación incluye la definición de requerimientos técnicos, diseño de personajes y enemigos, estructura de
     navegación, y planeación de CRUD, integración de librerías creativas (wired-elements, pandas, matplotlib).</p>
     """
-    return templates.TemplateResponse("detalle.html", {"request": request, "titulo": "📋 Planeación", "contenido": contenido})
+    return templates.TemplateResponse("detalle.html", {"request": request, "titulo": "📋 Planeación", "info": contenido})
 
 @app.get("/diseno", response_class=HTMLResponse)
 async def diseno(request: Request):
@@ -188,7 +219,7 @@ async def diseno(request: Request):
     <p>El diseño está enfocado en una estética PixelArt con elementos interactivos tipo boceto (sketch), navegación sencilla,
     colores vivos, tipografía retro y formularios con estilo RPG. Se utiliza `wired-elements` para mantener una estética coherente.</p>
     """
-    return templates.TemplateResponse("detalle.html", {"request": request, "titulo": "🎨 Diseño", "contenido": contenido})
+    return templates.TemplateResponse("detalle.html", {"request": request, "titulo": "🎨 Diseño", "info": contenido})
 
 # ------------------ Run -------------------
 if __name__ == "__main__":

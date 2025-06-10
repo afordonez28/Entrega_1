@@ -1,13 +1,37 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% block content %}
-<h1>Entidades</h1>
-<form action="/entidades">
-  <label>Buscar por nombre</label><input name="nombre">
-  <input type="submit" value="Buscar">
-</form>
-<ul>
-{% for ent in entidades %}
-  <li><a href="/entidades/{{ ent.id }}">{{ ent.nombre }} ({{ ent.tipo }})</a></li>
-{% endfor %}
-</ul>
+
+<h2 style="text-align:center; font-family: 'Press Start 2P', cursive;">{{ titulo }}</h2>
+
+<div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 2rem; padding: 1rem;">
+  {% for imagen in imagenes %}
+    <div>
+      <img src="{{ imagen }}" alt="Sprite" width="150" style="image-rendering: pixelated; border: 2px solid #000;">
+    </div>
+  {% endfor %}
+</div>
+
+<hr style="margin: 2rem 0;">
+
+<h3 style="text-align:center;">Listado</h3>
+
+<table style="margin: 0 auto; border-collapse: collapse; font-family: monospace;">
+  <thead>
+    <tr>
+      {% for key in elementos[0].dict().keys() %}
+        <th style="border: 1px solid black; padding: 5px;">{{ key }}</th>
+      {% endfor %}
+    </tr>
+  </thead>
+  <tbody>
+    {% for e in elementos %}
+      <tr>
+        {% for value in e.dict().values() %}
+          <td style="border: 1px solid black; padding: 5px;">{{ value }}</td>
+        {% endfor %}
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
 {% endblock %}

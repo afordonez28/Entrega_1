@@ -2,16 +2,48 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Videojuego RPG - PixelArt</title>
+    <title>Proyecto RPG 2D</title>
     <link rel="stylesheet" href="/static/css/styles.css">
+
+    <!-- Fuente estilo videojuego retro -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+    <!-- Componentes estilo videojuego interactivo -->
     <script type="module" src="https://unpkg.com/wired-elements?module"></script>
-    <link rel="icon" href="/static/uploads/icon.png">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Press Start 2P', cursive;
+            background-color: #1b1b2f;
+            color: #fff;
+        }
+        main {
+            padding: 2rem;
+        }
+        header, footer {
+            background-color: #0f3460;
+            color: #fff;
+            text-align: center;
+            padding: 1rem 0;
+        }
+    </style>
 </head>
-<body class="fondo">
-    {% include 'navbar.html' %}
-    <main class="contenedor-principal">
-        {% block content %}{% endblock %}
-    </main>
-    {% include 'footer.html' %}
+<body>
+
+<header>
+    <h1>🎮 Proyecto RPG Interactivo</h1>
+    {% include "navbar.html" %}
+</header>
+
+<main>
+    {% block content %}{% endblock %}
+</main>
+
+<footer>
+    <p>&copy; 2025 - Andrés Felipe Ordóñez</p>
+</footer>
+
 </body>
 </html>

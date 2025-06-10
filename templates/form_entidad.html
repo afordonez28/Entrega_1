@@ -1,12 +1,85 @@
-{% extends 'base.html' %}
-{% block content %}
-<h1>Registrar nuevo personaje</h1>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrar Jugador</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <script type="module" src="https://unpkg.com/wired-elements?module"></script>
+    <style>
+        body {
+            background-color: #1f1f1f;
+            font-family: 'Press Start 2P', cursive;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+        h1 {
+            color: #00ffcc;
+            margin-bottom: 2rem;
+        }
+        form {
+            background-color: #2d2d2d;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 0 10px #00ffcc;
+            display: flex;
+            flex-direction: column;
+            width: 400px;
+            gap: 1.5rem;
+        }
+        label {
+            font-size: 14px;
+            color: #ccc;
+        }
+        input[type="text"],
+        input[type="number"],
+        input[type="file"] {
+            background-color: #444;
+            color: #fff;
+            border: 1px solid #888;
+            padding: 0.5rem;
+            width: 100%;
+            border-radius: 5px;
+        }
+        .checkbox {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .actions {
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+    <h1>Nuevo Jugador</h1>
+    <form action="/players/form" method="post" enctype="multipart/form-data">
+        <label for="name">Nombre:</label>
+        <wired-input type="text" name="name" placeholder="Nombre del jugador" required></wired-input>
 
-<form action="/players/form" method="post" enctype="multipart/form-data">
-    <wired-input name="name" placeholder="Nombre del personaje"></wired-input><br><br>
-    <wired-input name="nivel" placeholder="Nivel del jugador"></wired-input><br><br>
-    <wired-input name="habilidad" placeholder="Habilidad especial"></wired-input><br><br>
-    <input type="file" name="imagen"><br><br>
-    <wired-button type="submit">Registrar</wired-button>
-</form>
-{% endblock %}
+        <label for="health">Salud:</label>
+        <wired-input type="number" name="health" placeholder="Puntos de vida" required></wired-input>
+
+        <label for="armor">Armadura:</label>
+        <wired-input type="number" name="armor" placeholder="Nivel de armadura" required></wired-input>
+
+        <div class="checkbox">
+            <input type="checkbox" name="is_dead" id="is_dead">
+            <label for="is_dead">¿Está muerto?</label>
+        </div>
+
+        <label for="image">Imagen (PNG, JPG):</label>
+        <input type="file" name="image" accept="image/*" required>
+
+        <div class="actions">
+            <wired-button type="submit">Crear</wired-button>
+            <a href="/players/html">
+                <wired-button>Volver</wired-button>
+            </a>
+        </div>
+    </form>
+</body>
+</html>

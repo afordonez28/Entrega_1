@@ -1,8 +1,73 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+
 {% block content %}
-<h2>{{ titulo }}</h2>
-<div class="contenido-detalle">
-    {{ contenido|safe }}
+<div class="detalle-container">
+    <h2 class="detalle-title">🔍 Información del Proyecto</h2>
+
+    <div class="detalle-box">
+        {{ info | safe }}
+    </div>
+
+    <div class="detalle-imagenes">
+        <img src="/static/uploads/imagen1.png" alt="imagen1">
+        <img src="/static/uploads/imagen2.png" alt="imagen2">
+        <img src="/static/uploads/imagen3.png" alt="imagen3">
+    </div>
 </div>
-<wired-button onclick="location.href='/'">Volver al inicio</wired-button>
+{% endblock %}
+
+{% block extra_styles %}
+<style>
+    .detalle-container {
+        margin: 2rem auto;
+        max-width: 900px;
+        padding: 1.5rem;
+        background-color: #1f1f2e;
+        border: 2px solid #44c8f5;
+        border-radius: 10px;
+        box-shadow: 0 0 15px #00eaff50;
+        color: #f0f0f0;
+        font-family: 'Courier New', Courier, monospace;
+    }
+
+    .detalle-title {
+        text-align: center;
+        font-size: 28px;
+        margin-bottom: 1.2rem;
+        color: #ffe359;
+        text-shadow: 1px 1px 4px #000;
+    }
+
+    .detalle-box {
+        font-size: 16px;
+        line-height: 1.8;
+        background-color: #2b2b40;
+        padding: 1rem;
+        border-radius: 8px;
+        border-left: 5px solid #44c8f5;
+        margin-bottom: 2rem;
+    }
+
+    .detalle-imagenes {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    .detalle-imagenes img {
+        width: 180px;
+        height: auto;
+        border: 2px solid #00eaff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px #00eaff50;
+        background-color: #fff;
+    }
+
+    @media (max-width: 600px) {
+        .detalle-imagenes img {
+            width: 100px;
+        }
+    }
+</style>
 {% endblock %}
