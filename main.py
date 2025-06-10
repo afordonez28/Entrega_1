@@ -291,6 +291,24 @@ async def add_temp_player(player: Player):
 async def get_temp_players():
     return await read_all_temporary_players()
 
+@app.get("/estadisticas", response_class=HTMLResponse)
+async def estadisticas(request: Request):
+    jugadores = await read_all_players()
+    return templates.TemplateResponse("estadisticas.html", {"request": request, "jugadores": jugadores})
+
+@app.get("/historial", response_class=HTMLResponse)
+async def historial(request: Request):
+    historial = await read_deleted_players()  # reutiliza tu función
+    return templates.TemplateResponse("historial.html", {"request": request, "historial": historial})
+
+@app.get("/acerca", response_class=HTMLResponse)
+async def acerca(request: Request):
+    return templates.TemplateResponse("acerca.html", {"request": request})
+
+@app.get("/error_demo", response_class=HTMLResponse)
+async def error_demo(request: Request):
+    return templates.TemplateResponse("error.html", {"request": request, "codigo": 404, "mensaje": "Página no encontrada"})
+
 
 
 # ------------------ Run -------------------

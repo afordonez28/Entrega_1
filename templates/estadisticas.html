@@ -1,0 +1,19 @@
+<!-- estadisticas.html -->
+{% extends "base.html" %}
+{% block content %}
+<h2>📊 Estadísticas del Juego</h2>
+<div id="grafico-container">
+    <img src="/static/uploads/estadistica1.png" alt="Gráfico 1">
+    <img src="/static/uploads/estadistica2.png" alt="Gráfico 2">
+</div>
+<table>
+    <thead>
+        <tr><th>Nombre</th><th>Salud</th><th>Estado</th></tr>
+    </thead>
+    <tbody>
+        {% for jugador in jugadores %}
+        <tr><td>{{ jugador.name }}</td><td>{{ jugador.health }}</td><td>{{ "Muerto" if jugador.is_dead else "Vivo" }}</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,20 @@
+<!-- historial.html -->
+{% extends "base.html" %}
+{% block content %}
+<h2>🗂️ Historial de Eliminaciones</h2>
+<table>
+    <thead>
+        <tr><th>ID</th><th>Nombre</th><th>Motivo</th><th>Fecha</th></tr>
+    </thead>
+    <tbody>
+        {% for registro in historial %}
+        <tr>
+            <td>{{ registro.id }}</td>
+            <td>{{ registro.name }}</td>
+            <td>Eliminado</td>
+            <td>{{ registro.fecha }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

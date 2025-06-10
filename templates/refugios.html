@@ -1,0 +1,10 @@
+<!-- refugios.html -->
+{% extends "base.html" %}
+{% block content %}
+<h2>🏕️ Refugios</h2>
+<ul>
+    {% for refugio in refugios %}
+    <li><strong>{{ refugio.nombre }}</strong>: Capacidad {{ refugio.capacidad }} | Recursos: {{ refugio.recursos }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}
