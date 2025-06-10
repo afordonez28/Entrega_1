@@ -24,7 +24,7 @@ import uvicorn
 import os
 
 from operations.operations_player import router as player_router
-
+app.include_router(player_router, prefix="/api/players", tags=["Players"])
 app = FastAPI()
 
 # HTML config
@@ -296,5 +296,3 @@ async def get_temp_players():
 if __name__ == "__main__":
     uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
 
-
-app.include_router(player_router, prefix="/api/players", tags=["Players"])
