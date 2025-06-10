@@ -99,15 +99,17 @@ async def submit_player_form(
     armor: int = Form(...),
     is_dead: bool = Form(False),
     regenerate_health: int = Form(...),
-    speed: int = Form(...),
-    jump: int = Form(...),
+    speed: float = Form(...),
+    jump: float = Form(...),
     hit_speed: int = Form(...),
     image: UploadFile = File(...)
 ):
+    # Guarda imagen
     image_path = f"static/uploads/{image.filename}"
     with open(image_path, "wb") as buffer:
         shutil.copyfileobj(image.file, buffer)
 
+    # Crea jugador
     player = Player(
         name=name,
         health=health,
@@ -118,10 +120,8 @@ async def submit_player_form(
         jump=jump,
         hit_speed=hit_speed
     )
-    new_player = await create_player(player, image=image)
+    new_player = await create_player(player)  # ✅ aquí está el arreglo
 
-
-    # 👇 Aquí asegúrate que sea una f-string real, NO una cadena con llaves literales
     return RedirectResponse(url=f"/players/created/{new_player.id}", status_code=302)
 
 # ------------------ API REST -------------------
