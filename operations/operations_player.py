@@ -36,14 +36,29 @@ async def read_one_player(player_id: int) -> Optional[PlayerWithID]:
 async def create_player(player: Player) -> PlayerWithID:
     players = await read_all_players()
     new_id = max([p.id for p in players], default=0) + 1
-    player_dict = player.dict()
-    player_dict["id"] = new_id
+
+    # Creamos un diccionario que incluye explícitamente todos los campos necesarios
+    player_with_id = PlayerWithID(id=new_id, **player.dict())
+    player_dict = {
+        "id": player_with_id.id,
+        "name": player_with_id.name,
+        "health": player_with_id.health,
+        "regenerate_health": player_with_id.regenerate_health,
+        "speed": player_with_id.speed,
+        "jump": player_with_id.jump,
+        "is_dead": str(player_with_id.is_dead),  # Guardar como string para CSV
+        "armor": player_with_id.armor,
+        "hit_speed": player_with_id.hit_speed
+    }
+
     with open(PLAYER_CSV, mode="a", newline="") as file:
         writer = csv.DictWriter(file, fieldnames=PLAYER_FIELDS)
         if file.tell() == 0:
             writer.writeheader()
         writer.writerow(player_dict)
-    return PlayerWithID(id=new_id, **player.dict())
+
+    return player_with_id
+
 
 async def update_player(player_id: int, update_data: dict) -> Optional[PlayerWithID]:
     players = await read_all_players()
