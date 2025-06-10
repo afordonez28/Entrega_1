@@ -123,4 +123,3 @@ async def restore_player(player_id: int) -> Optional[PlayerWithID]:
         write_players_to_csv(current_players)
         write_players_to_csv(remaining, DELETED_CSV_FILE)
     return to_restore
-

@@ -1,3 +1,4 @@
+main:
 from fastapi import FastAPI, Depends, HTTPException, Query, Request, Form, File, UploadFile
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
@@ -279,7 +280,7 @@ async def planeacion(request: Request):
 async def diseno(request: Request):
     contenido = """
     <p>El diseño está enfocado en una estética PixelArt con elementos interactivos tipo boceto (sketch), navegación sencilla,
-    colores vivos, tipografía retro y formularios con estilo RPG. Se utiliza `wired-elements` para mantener una estética coherente.</p>
+    colores vivos, tipografía retro y formularios con estilo RPG. Se utiliza wired-elements para mantener una estética coherente.</p>
     """
     return templates.TemplateResponse("detalle.html", {"request": request, "titulo": "🎨 Diseño", "info": contenido})
 
@@ -317,4 +318,3 @@ async def error_demo(request: Request):
 # ------------------ Run -------------------
 if __name__ == "__main__":
     uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
-
