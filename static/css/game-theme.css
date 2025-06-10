@@ -1,25 +1,33 @@
-body {
-    background-color: #1e1e2f;
+body.fondo {
+    background: url("/static/uploads/bg_pixel_art.png") repeat;
     font-family: 'Press Start 2P', cursive;
-    color: #ffffff;
-    padding: 20px;
-    background-image: url("/static/css/background-game.png");
-    background-size: cover;
+    color: #fff;
+    margin: 0;
+    padding: 0;
 }
 
-a, button {
-    background-color: #4CAF50;
-    border: none;
-    color: white;
-    padding: 10px;
+.nav-rpg {
+    background: #222;
+    padding: 12px;
+    display: flex;
+    justify-content: space-around;
+    border-bottom: 4px solid #f39c12;
+}
+
+.nav-btn {
+    color: #fff;
     text-decoration: none;
-    display: inline-block;
     font-size: 14px;
-    margin: 4px 2px;
-    border-radius: 5px;
-    cursor: pointer;
 }
 
-a:hover, button:hover {
-    background-color: #3e8e41;
+.contenedor-principal {
+    padding: 20px;
+}
+
+footer {
+    background-color: #111;
+    color: #aaa;
+    text-align: center;
+    padding: 10px;
+    font-size: 12px;
 }

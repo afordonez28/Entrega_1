@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+{% extends 'base.html' %}
+{% block content %}
+<h2>{{ titulo }}</h2>
+<div class="contenido-detalle">
+    {{ contenido|safe }}
+</div>
+<wired-button onclick="location.href='/'">Volver al inicio</wired-button>
+{% endblock %}

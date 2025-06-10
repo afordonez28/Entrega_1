@@ -1,6 +1,12 @@
-{% extends "base.html" %}
-{% block title %}Inicio{% endblock %}
+{% extends 'base.html' %}
 {% block content %}
-<h1>Bienvenido al mundo del videojuego 2D</h1>
-<p>Explora jugadores, enemigos y más...</p>
+<h2>Bienvenido al RPG PixelArt Game</h2>
+<p>Observa las estadísticas de los jugadores, enemigos, y cómo sobreviven las oleadas.</p>
+
+<img src="/static/uploads/grafica_rpg.png" alt="Gráfica de rendimiento">
+
+<div>
+    <wired-button onclick="location.href='/players'">Ver jugadores</wired-button>
+    <wired-button onclick="location.href='/enemies'">Ver enemigos</wired-button>
+</div>
 {% endblock %}

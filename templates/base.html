@@ -2,14 +2,16 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Game World{% endblock %}</title>
+    <title>Videojuego RPG - PixelArt</title>
     <link rel="stylesheet" href="/static/css/styles.css">
+    <script type="module" src="https://unpkg.com/wired-elements?module"></script>
+    <link rel="icon" href="/static/uploads/icon.png">
 </head>
-<body>
-    {% include "navbar.html" %}
-    <main>
+<body class="fondo">
+    {% include 'navbar.html' %}
+    <main class="contenedor-principal">
         {% block content %}{% endblock %}
     </main>
-    {% include "footer.html" %}
+    {% include 'footer.html' %}
 </body>
 </html>

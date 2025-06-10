@@ -153,23 +153,43 @@ async def get_players_sql(session: AsyncSession = Depends(get_session)):
     result = await session.execute(select(PlayerModel))
     return result.scalars().all()
 
-# Información adicional
-@app.get("/dev", response_class=HTMLResponse)
-async def developer_info(request: Request):
-    return templates.TemplateResponse("detalle.html", {"request": request, "info": "Desarrollador: Tu nombre"})
+# ------------------ Endpoints Informativos -------------------
+@app.get("/desarrollador", response_class=HTMLResponse)
+async def info_desarrollador(request: Request):
+    contenido = """
+    <ul>
+        <li><strong>Nombre:</strong> Andrés Felipe Ordóñez</li>
+        <li><strong>Código:</strong> 67001128</li>
+        <li><strong>Correo:</strong> afordonez28@ucatolica.edu.co</li>
+        <li><strong>Semestre:</strong> Séptimo</li>
+    </ul>
+    """
+    return templates.TemplateResponse("detalle.html", {"request": request, "titulo": "👨‍💻 Desarrollador", "contenido": contenido})
 
-@app.get("/plan", response_class=HTMLResponse)
-async def planning_info(request: Request):
-    return templates.TemplateResponse("detalle.html", {"request": request, "info": "Planeación del proyecto..."})
+@app.get("/objetivo", response_class=HTMLResponse)
+async def objetivo_proyecto(request: Request):
+    contenido = """
+    <p>Crear la interfaz gráfica de un videojuego 2D utilizando gráficos PixelArt en Godot Engine, que fomente la creatividad
+    y la capacidad de diseñar mientras el jugador observa y enfrenta oleadas de enemigos.</p>
+    """
+    return templates.TemplateResponse("detalle.html", {"request": request, "titulo": "🎯 Objetivo del Proyecto", "contenido": contenido})
 
-@app.get("/design", response_class=HTMLResponse)
-async def design_info(request: Request):
-    return templates.TemplateResponse("detalle.html", {"request": request, "info": "Diseño de interfaz 2D..."})
+@app.get("/planeacion", response_class=HTMLResponse)
+async def planeacion(request: Request):
+    contenido = """
+    <p>La fase de planeación incluye la definición de requerimientos técnicos, diseño de personajes y enemigos, estructura de
+    navegación, y planeación de CRUD, integración de librerías creativas (wired-elements, pandas, matplotlib).</p>
+    """
+    return templates.TemplateResponse("detalle.html", {"request": request, "titulo": "📋 Planeación", "contenido": contenido})
 
-@app.get("/goal", response_class=HTMLResponse)
-async def project_goal(request: Request):
-    return templates.TemplateResponse("detalle.html", {"request": request, "info": "Objetivo del proyecto: Crear videojuego 2D interactivo."})
+@app.get("/diseno", response_class=HTMLResponse)
+async def diseno(request: Request):
+    contenido = """
+    <p>El diseño está enfocado en una estética PixelArt con elementos interactivos tipo boceto (sketch), navegación sencilla,
+    colores vivos, tipografía retro y formularios con estilo RPG. Se utiliza `wired-elements` para mantener una estética coherente.</p>
+    """
+    return templates.TemplateResponse("detalle.html", {"request": request, "titulo": "🎨 Diseño", "contenido": contenido})
 
-
+# ------------------ Run -------------------
 if __name__ == "__main__":
     uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
