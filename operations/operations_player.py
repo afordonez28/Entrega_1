@@ -178,3 +178,19 @@ async def revive(player_id: int):
     if not revived:
         raise HTTPException(status_code=404, detail="Player not found")
     return revived
+
+
+
+# Almacén temporal en memoria
+temporary_players = []
+temporary_id_counter = 10000  # Un número alto para no colisionar con CSV
+
+async def create_temporary_player(player: Player) -> PlayerWithID:
+    global temporary_id_counter
+    temporary_id_counter += 1
+    new_player = PlayerWithID(id=temporary_id_counter, **player.dict())
+    temporary_players.append(new_player)
+    return new_player
+
+async def read_all_temporary_players() -> List[PlayerWithID]:
+    return temporary_players

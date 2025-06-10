@@ -279,6 +279,19 @@ async def diseno(request: Request):
     """
     return templates.TemplateResponse("detalle.html", {"request": request, "titulo": "🎨 Diseño", "info": contenido})
 
+
+from operations.operations_player import create_temporary_player, read_all_temporary_players
+
+@app.post("/players/temp_create/", response_model=PlayerWithID)
+async def add_temp_player(player: Player):
+    return await create_temporary_player(player)
+
+@app.get("/players/temp_all/", response_model=List[PlayerWithID])
+async def get_temp_players():
+    return await read_all_temporary_players()
+
+
+
 # ------------------ Run -------------------
 if __name__ == "__main__":
     uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
