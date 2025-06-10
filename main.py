@@ -36,18 +36,32 @@ async def home(request: Request):
 
 # ------------------ HTML Pages -------------------
 
+@app.get("/players/created/{player_id}", response_class=HTMLResponse)
+async def show_created_player(request: Request, player_id: int):
+    player = await read_one_player(player_id)
+    if not player:
+        raise HTTPException(status_code=404, detail="Player not found")
+
+    imagen = f"/static/uploads/{player.name.lower()}.png"  # puedes ajustar esta lógica de imagen según nombre o id
+
+    return templates.TemplateResponse("personaje_creado.html", {
+        "request": request,
+        "player": player,
+        "imagen": imagen
+    })
+
 @app.get("/players/form", response_class=HTMLResponse)
 async def form_player(request: Request):
     return templates.TemplateResponse("form_entidad.html", {"request": request})
 
 @app.get("/players/html", response_class=HTMLResponse)
 async def list_players_html(request: Request):
-    players = read_all_players()
+    players = await read_all_players()
     imagenes = [
-        "/static/uploads/personaje1.png",
-        "/static/uploads/personaje2.png",
-        "/static/uploads/personaje3.png",
-        "/static/uploads/personaje4.png",
+        "/static/uploads/personaje_1.png",
+        "/static/uploads/personaje_2.png",
+        "/static/uploads/personaje_3.png",
+        "/static/uploads/personaje_4.png",
     ]
     return templates.TemplateResponse("listar.html", {
         "request": request,
@@ -60,10 +74,9 @@ async def list_players_html(request: Request):
 async def list_enemies_html(request: Request):
     enemies = read_all_enemies()
     imagenes = [
-        "/static/uploads/enemigo1.png",
-        "/static/uploads/enemigo2.png",
-        "/static/uploads/enemigo3.png",
-        "/static/uploads/enemigo4.png",
+        "/static/uploads/enemie_1.png",
+        "/static/uploads/enemie_2.png",
+
     ]
     return templates.TemplateResponse("listar.html", {
         "request": request,
@@ -78,20 +91,35 @@ async def submit_player_form(
     health: int = Form(...),
     armor: int = Form(...),
     is_dead: bool = Form(False),
+    regenerate_health: int = Form(...),
+    speed: int = Form(...),
+    jump: int = Form(...),
+    hit_speed: int = Form(...),
     image: UploadFile = File(...)
 ):
     image_path = f"static/uploads/{image.filename}"
     with open(image_path, "wb") as buffer:
         shutil.copyfileobj(image.file, buffer)
 
-    player = Player(name=name, health=health, armor=armor, is_dead=is_dead)
-    await create_player(player)
-    return RedirectResponse(url="/players/html", status_code=302)
+    player = Player(
+        name=name,
+        health=health,
+        armor=armor,
+        is_dead=is_dead,
+        regenerate_health=regenerate_health,
+        speed=speed,
+        jump=jump,
+        hit_speed=hit_speed
+    )
+    new_player = await create_player(player)
+
+    # 👇 Aquí asegúrate que sea una f-string real, NO una cadena con llaves literales
+    return RedirectResponse(url=f"/players/created/{new_player.id}", status_code=302)
 
 # ------------------ API REST -------------------
 @app.get("/players_add/", response_model=List[PlayerWithID])
 async def get_players():
-    return read_all_players()
+    return await read_all_players()
 
 @app.get("/players/{player_id}", response_model=PlayerWithID)
 async def get_player(player_id: int):
@@ -120,14 +148,14 @@ async def delete_player_endpoint(player_id: int):
 
 @app.get("/players/filter/", response_model=List[PlayerWithID])
 async def filter_players(is_dead: Optional[bool] = None):
-    players = read_all_players()
+    players = await read_all_players()
     if is_dead is not None:
         players = [player for player in players if player.is_dead == is_dead]
     return players
 
 @app.get("/players/search/", response_model=List[PlayerWithID])
 async def search_players_by_health(min_health: int = Query(0)):
-    players = read_all_players()
+    players = await read_all_players()
     return [player for player in players if player.health >= min_health]
 
 @app.put("/players/{player_id}/revive", response_model=PlayerWithID)

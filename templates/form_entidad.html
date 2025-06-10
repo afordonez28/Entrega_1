@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Registrar Jugador</title>
-    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="/static/css/game-theme.css">
     <script type="module" src="https://unpkg.com/wired-elements?module"></script>
     <style>
         body {
@@ -27,7 +27,7 @@
             display: flex;
             flex-direction: column;
             width: 400px;
-            gap: 1.5rem;
+            gap: 1.2rem;
         }
         label {
             font-size: 14px;
@@ -56,28 +56,41 @@
 </head>
 <body>
     <h1>Nuevo Jugador</h1>
+
     <form action="/players/form" method="post" enctype="multipart/form-data">
         <label for="name">Nombre:</label>
-        <wired-input type="text" name="name" placeholder="Nombre del jugador" required></wired-input>
+        <input type="text" name="name" required>
 
         <label for="health">Salud:</label>
-        <wired-input type="number" name="health" placeholder="Puntos de vida" required></wired-input>
+        <input type="number" name="health" required>
 
         <label for="armor">Armadura:</label>
-        <wired-input type="number" name="armor" placeholder="Nivel de armadura" required></wired-input>
+        <input type="number" name="armor" required>
 
         <div class="checkbox">
             <input type="checkbox" name="is_dead" id="is_dead">
             <label for="is_dead">¿Está muerto?</label>
         </div>
 
+        <label for="regenerate_health">Regeneración de salud:</label>
+        <input type="number" name="regenerate_health" required>
+
+        <label for="speed">Velocidad:</label>
+        <input type="number" name="speed" required>
+
+        <label for="jump">Salto:</label>
+        <input type="number" name="jump" required>
+
+        <label for="hit_speed">Velocidad de ataque:</label>
+        <input type="number" name="hit_speed" required>
+
         <label for="image">Imagen (PNG, JPG):</label>
         <input type="file" name="image" accept="image/*" required>
 
         <div class="actions">
-            <wired-button type="submit">Crear</wired-button>
+            <button type="submit">Crear</button>
             <a href="/players/html">
-                <wired-button>Volver</wired-button>
+                <button type="button">Volver</button>
             </a>
         </div>
     </form>

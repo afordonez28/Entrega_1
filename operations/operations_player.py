@@ -25,7 +25,7 @@ def write_players_to_csv(players: List[PlayerWithID]):
         for player in players:
             writer.writerow(player.dict())
 
-def read_all_players() -> List[PlayerWithID]:
+async def read_all_players() -> List[PlayerWithID]:
     players = []
     try:
         with open(PLAYER_CSV, mode="r", newline="") as csvfile:
@@ -45,15 +45,15 @@ def read_all_players() -> List[PlayerWithID]:
         pass
     return players
 
-def read_one_player(player_id: int) -> Optional[PlayerWithID]:
-    players = read_all_players()
+async def read_one_player(player_id: int) -> Optional[PlayerWithID]:
+    players = await read_all_players()
     for player in players:
         if player.id == player_id:
             return player
     return None
 
 async def create_player(player: Player) -> PlayerWithID:
-    players = read_all_players()
+    players = await read_all_players()
     new_id = max([p.id for p in players], default=0) + 1
     player_with_id = PlayerWithID(id=new_id, **player.dict())
     players.append(player_with_id)
@@ -74,8 +74,8 @@ def update_player(player_id: int, player_update: dict) -> Optional[PlayerWithID]
         return updated_player
     return None
 
-def delete_player(player_id: int) -> Optional[PlayerWithID]:
-    players = read_all_players()
+async def delete_player(player_id: int) -> Optional[PlayerWithID]:
+    players = await read_all_players()
     removed_player = None
     new_players = []
     for player in players:

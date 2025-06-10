@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="detalle-container">
+    <h2 class="detalle-title">🎉 ¡Personaje Creado!</h2>
+    <div class="detalle-box">
+        <p><strong>Nombre:</strong> {{ player.name }}</p>
+        <p><strong>Salud:</strong> {{ player.health }}</p>
+        <p><strong>Armadura:</strong> {{ player.armor }}</p>
+        <p><strong>Estado:</strong> {{ "Muerto" if player.is_dead else "Vivo" }}</p>
+    </div>
+    <div class="detalle-imagenes">
+        <img src="{{ imagen }}" alt="Imagen del personaje" width="200">
+    </div>
+    <a href="/players/html"><wired-button>Ver todos los personajes</wired-button></a>
+</div>
+{% endblock %}
