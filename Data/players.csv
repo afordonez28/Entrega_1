@@ -1,4 +1,1 @@
-id,name,health,regenerate_health,speed,jump,is_dead,armor,hit_speed
-1,Felipe,12,12,15.0,46.0,False,12,64
-2,Juan,0,0,1.0,1.0,True,0,0
-3,Juan,0,0,1.0,1.0,True,0,0
+
