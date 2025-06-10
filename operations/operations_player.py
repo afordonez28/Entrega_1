@@ -1,17 +1,13 @@
 import csv
-import os
 from typing import List
 from models import Player, PlayerWithID
 
 # ------------------------ RUTAS Y CONSTANTES ------------------------
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-CSV_FILE = os.path.join(BASE_DIR, "../data/players.csv")
-DELETED_CSV_FILE = os.path.join(BASE_DIR, "../data/deleted_players.csv")
+CSV_FILE = "data/player.csv"
+DELETED_CSV_FILE = "data/deleted_player.csv"
 
-FIELDNAMES = [
-    "id", "name", "health", "regenerate_health",
-    "speed", "jump", "is_dead", "armor", "hit_speed"
-]
+FIELDNAMES = ["id", "name", "health", "regenerate_health", "speed", "jump", "is_dead", "armor", "hit_speed"]
+
 
 # ------------------------ FUNCIONES AUXILIARES ------------------------
 
