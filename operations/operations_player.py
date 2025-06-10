@@ -2,14 +2,19 @@ import csv
 from typing import List, Optional
 from models import Player, PlayerWithID
 from fastapi import APIRouter, HTTPException
-
+import os
 router = APIRouter()
 
-PLAYER_CSV = "data/players.csv"
-DELETED_PLAYER_CSV = "data/deleted_players.csv"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_DIR = os.path.join(BASE_DIR, "../data")
+
+PLAYER_CSV = os.path.join(DATA_DIR, "players.csv")
+DELETED_PLAYER_CSV = os.path.join(DATA_DIR, "deleted_players.csv")
 PLAYER_FIELDS = ["id", "name", "health", "regenerate_health", "speed", "jump", "is_dead", "armor", "hit_speed"]
 
 # ---------------------- CRUD Functions ----------------------
+os.makedirs(DATA_DIR, exist_ok=True)
+
 
 async def read_all_players() -> List[PlayerWithID]:
     players = []
